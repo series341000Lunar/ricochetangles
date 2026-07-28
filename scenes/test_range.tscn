@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene format=3 uid="uid://biu4tqcy05ai1"]
 
-[ext_resource type="Script" path="res://scripts/test_range.gd" id="1_range"]
+[ext_resource type="Script" uid="uid://demfnyrjye4y4" path="res://scripts/test_range.gd" id="1_range"]
 [ext_resource type="PackedScene" path="res://scenes/player_tank.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/target_tank.tscn" id="3_target"]
-[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="4_camera"]
-[ext_resource type="Script" path="res://scripts/debug_overlay.gd" id="5_debug"]
+[ext_resource type="Script" uid="uid://dy3maxnx2id27" path="res://scripts/camera_controller.gd" id="4_camera"]
+[ext_resource type="Script" uid="uid://dlrydq1gx5pug" path="res://scripts/debug_overlay.gd" id="5_debug"]
+[ext_resource type="PackedScene" path="res://scenes/moving_target_tank.tscn" id="6_moving_target"]
 
 [sub_resource type="Environment" id="RangeEnvironment"]
 background_mode = 1
@@ -15,7 +16,6 @@ ambient_light_energy = 0.7
 
 [sub_resource type="StandardMaterial3D" id="FloorMaterial"]
 albedo_color = Color(0.18, 0.235, 0.22, 1)
-roughness = 1.0
 
 [sub_resource type="BoxMesh" id="FloorMesh"]
 material = SubResource("FloorMaterial")
@@ -43,10 +43,8 @@ material = SubResource("ZAxisMaterial")
 size = Vector3(0.08, 0.035, 30)
 
 [sub_resource type="StandardMaterial3D" id="AimMaterial"]
-albedo_color = Color(0.95, 0.9, 0.15, 1)
-emission_enabled = true
-emission = Color(0.6, 0.45, 0.02, 1)
 shading_mode = 0
+albedo_color = Color(0.95, 0.9, 0.15, 1)
 
 [sub_resource type="TorusMesh" id="AimMesh"]
 material = SubResource("AimMaterial")
@@ -73,55 +71,50 @@ font_color = Color(0.88, 0.96, 0.92, 1)
 outline_size = 2
 outline_color = Color(0, 0, 0, 0.8)
 
-[node name="TestRange" type="Node3D"]
+[node name="TestRange" type="Node3D" unique_id=1109769259]
 script = ExtResource("1_range")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1631031475]
 environment = SubResource("RangeEnvironment")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-rotation = Vector3(-1.0472, -0.698132, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1749958058]
+transform = Transform3D(0.76604426, 0.5566714, -0.32139257, 0, 0.4999979, 0.86602664, 0.6427878, -0.6634147, 0.38302052, 0, 0, 0)
 light_color = Color(1, 0.94, 0.82, 1)
 light_energy = 1.15
 shadow_enabled = true
 
-[node name="Floor" type="StaticBody3D" parent="."]
-collision_layer = 1
-collision_mask = 1
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1023723725]
 
-[node name="Mesh" type="MeshInstance3D" parent="Floor"]
-position = Vector3(0, -0.1, 0)
+[node name="Mesh" type="MeshInstance3D" parent="Floor" unique_id=1193352849]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 mesh = SubResource("FloorMesh")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-position = Vector3(0, -0.1, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1680603258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("FloorCollision")
 
-[node name="OriginX" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.025, 0)
+[node name="OriginX" type="MeshInstance3D" parent="." unique_id=2059547884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("XAxisMesh")
 
-[node name="OriginZ" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.03, 0)
+[node name="OriginZ" type="MeshInstance3D" parent="." unique_id=696391437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
 mesh = SubResource("ZAxisMesh")
 
-[node name="PlayerTank" parent="." instance=ExtResource("2_player")]
+[node name="PlayerTank" parent="." unique_id=277548716 instance=ExtResource("2_player")]
 
-[node name="FrontTarget" parent="." instance=ExtResource("3_target")]
-position = Vector3(0, 0, -20)
-rotation = Vector3(0, 3.14159, 0)
+[node name="FrontTarget" parent="." unique_id=272410417 instance=ExtResource("3_target")]
+transform = Transform3D(-1, 0, 2.5351817e-06, 0, 1, 0, -2.5351817e-06, 0, -1, 0, 0, -20)
 target_id = "front_target"
 
-[node name="SideTarget" parent="." instance=ExtResource("3_target")]
-position = Vector3(11, 0, -15)
-rotation = Vector3(0, -0.610865, 0)
-target_id = "side_target"
+[node name="SideTarget" parent="." unique_id=1051031242 instance=ExtResource("6_moving_target")]
+transform = Transform3D(0.8191522, 0, -0.5735762, 0, 1, 0, 0.5735762, 0, 0.8191522, 11, 0, -15)
 
-[node name="RearTarget" parent="." instance=ExtResource("3_target")]
-position = Vector3(-11, 0, -15)
+[node name="RearTarget" parent="." unique_id=1261993126 instance=ExtResource("3_target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -15)
 target_id = "rear_target"
 
-[node name="CameraRig" type="Node3D" parent="."]
+[node name="CameraRig" type="Node3D" parent="." unique_id=641905286]
 script = ExtResource("4_camera")
 player_path = NodePath("../PlayerTank")
 turret_path = NodePath("../PlayerTank/TurretPivot")
@@ -135,45 +128,47 @@ near = 0.1
 far = 100.0
 current = true
 
-[node name="ObliqueCamera" type="Camera3D" parent="CameraRig"]
-position = Vector3(18, 26, 18)
-rotation = Vector3(-0.959931, 0.785398, 0)
+[node name="ObliqueCamera" type="Camera3D" parent="CameraRig" unique_id=1632683069]
+transform = Transform3D(0.7071069, -0.5792278, 0.40557978, 0, 0.5735765, 0.819152, -0.70710665, -0.57922804, 0.4055799, 18, 26, 18)
 projection = 1
 size = 34.0
 near = 0.1
 far = 100.0
 
-[node name="AimMarker" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.08, -20)
+[node name="AimMarker" type="MeshInstance3D" parent="." unique_id=809179618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -20)
 mesh = SubResource("AimMesh")
 
-[node name="ProjectileRoot" type="Node3D" parent="."]
+[node name="ProjectileRoot" type="Node3D" parent="." unique_id=1098488079]
 
-[node name="DebugOverlay" type="Node" parent="."]
+[node name="DebugOverlay" type="Node" parent="." unique_id=713319120]
 script = ExtResource("5_debug")
 player_path = NodePath("../PlayerTank")
 turret_path = NodePath("../PlayerTank/TurretPivot")
 camera_controller_path = NodePath("../CameraRig")
 aim_marker_path = NodePath("../AimMarker")
+moving_target_path = NodePath("../SideTarget")
 
-[node name="WorldLines" type="MeshInstance3D" parent="DebugOverlay"]
+[node name="WorldLines" type="MeshInstance3D" parent="DebugOverlay" unique_id=542438267]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="DebugOverlay"]
+[node name="CanvasLayer" type="CanvasLayer" parent="DebugOverlay" unique_id=1381162031]
 
-[node name="PanelContainer" type="PanelContainer" parent="DebugOverlay/CanvasLayer"]
+[node name="PanelContainer" type="PanelContainer" parent="DebugOverlay/CanvasLayer" unique_id=444934343]
 offset_left = 12.0
 offset_top = 12.0
 offset_right = 530.0
 offset_bottom = 430.0
 theme_override_styles/panel = SubResource("OverlayPanelStyle")
 
-[node name="MarginContainer" type="MarginContainer" parent="DebugOverlay/CanvasLayer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="DebugOverlay/CanvasLayer/PanelContainer" unique_id=609031122]
+layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="DebugOverlay/CanvasLayer/PanelContainer/MarginContainer"]
-label_settings = SubResource("OverlayLabelSettings")
+[node name="Label" type="Label" parent="DebugOverlay/CanvasLayer/PanelContainer/MarginContainer" unique_id=1977106297]
+layout_mode = 2
 text = "Loading V0 debug state..."
+label_settings = SubResource("OverlayLabelSettings")
 vertical_alignment = 1

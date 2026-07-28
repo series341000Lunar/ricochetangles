@@ -1,4 +1,13 @@
-# RicochetAngles Godot V0
+# RicochetAngles Godot V0.1
+
+현재 활성 범위는 `Phase V0.1 — Moving Target Combat Spike`다. 기존 V0 사용자 검증은 `PASS`이며, V0.1은 그 위에 움직이는 표적 딱 1대와 최소 격파 수명주기만 추가한다.
+
+- 이동 표적: 월드 X축의 결정론적 2점 왕복, `3.0 m/s`, 구간 길이 `10 m`
+- 내구도: `HP 3`; 기존 APHE의 `PENETRATION`만 1 피해
+- `NON_PENETRATION`과 `RICOCHET`: 피해 없음
+- HP 0: `DESTROYED`, 이동·추가 피해 중지, collider 비활성화, 어두운 기울임 표시
+- R: HP/상태/시작 위치·yaw/이동 방향·진행도/collider/시각/포탄/debug까지 초기화
+- 기존 장갑 계산과 “마우스가 움직일 때만 새 조준점을 계산”하는 카메라 조준 정책은 변경하지 않음
 
 이 프로젝트는 전체 포팅이 아니라 `Phase V0 — Godot Core Feasibility Spike` 전용 테스트장이다.
 
@@ -17,13 +26,19 @@
 
 ## 요구 환경
 
-- Godot `4.7.stable`
+- Godot `4.7.1.stable`
 - Compatibility renderer
 - 외부 addon, plugin, C#, package 없음
 
 ## 실행
 
 Godot 4.7에서 저장소 루트의 `project.godot`을 연 뒤 프로젝트를 실행한다.
+
+이 저장소에서 검증한 로컬 Godot:
+
+```powershell
+C:\Godot\Godot_console.exe --path .
+```
 
 PATH에 Godot가 있다면:
 
@@ -79,6 +94,14 @@ godot --headless --path . --script res://tests_or_validation/v0_validation_runne
 
 상세 결과는 [tests_or_validation/V0_VALIDATION_RESULTS.md](tests_or_validation/V0_VALIDATION_RESULTS.md)에 있다.
 
+V0.1 이동·피해·격파·초기화 회귀검사:
+
+```powershell
+C:\Godot\Godot_console.exe --headless --path . --script res://tests_or_validation/v01_validation_runner.gd
+```
+
+상세 결과는 [tests_or_validation/V01_VALIDATION_RESULTS.md](tests_or_validation/V01_VALIDATION_RESULTS.md)에 기록한다.
+
 ## 캡처
 
 탑다운 Web export:
@@ -91,6 +114,6 @@ godot --headless --path . --script res://tests_or_validation/v0_validation_runne
 
 ## 범위 제한
 
-보스, Stage, 다른 탄종, AI, 곡사포, 불릿타임, SCORE/XP, 정식 아트·사운드와 전체 포팅 구조는 구현하지 않았다.
+보스, Stage, 다른 탄종, 전투 AI, 추적·회피·내비게이션, 추가 이동 표적, 웨이브·스폰·리스폰, 곡사포, 불릿타임, SCORE/XP, 정식 아트·사운드와 전체 포팅 구조는 구현하지 않았다.
 
-> Phase V0의 검증 범위에서 작업을 종료했으며, 보스·Stage·전체 탄종·AI·정식 아트·전체 포팅으로 확장하지 않았다.
+> Phase V0.1의 검증 범위에서 작업을 종료했으며, 움직이는 표적 1대·HP 3·관통 격파를 넘어 보스·Stage·전체 탄종·전투 AI·정식 아트·전체 포팅으로 확장하지 않았다.

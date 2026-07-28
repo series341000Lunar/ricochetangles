@@ -5,11 +5,13 @@ extends Node
 @export var turret_path: NodePath
 @export var camera_controller_path: NodePath
 @export var aim_marker_path: NodePath
+@export var moving_target_path: NodePath
 
 @onready var player: V0PlayerTank = get_node(player_path)
 @onready var turret: V0TurretAim = get_node(turret_path)
 @onready var camera_controller: V0CameraController = get_node(camera_controller_path)
 @onready var aim_marker: MeshInstance3D = get_node(aim_marker_path)
+@onready var moving_target: V0TargetTank = get_node_or_null(moving_target_path) as V0TargetTank
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 @onready var label: Label = $CanvasLayer/PanelContainer/MarginContainer/Label
 @onready var world_lines: MeshInstance3D = $WorldLines
@@ -80,6 +82,12 @@ func _compose_text() -> String:
 			player.actual_speed,
 		],
 	])
+	if moving_target != null:
+		lines.append("moving target: HP %d/%d  state: %s" % [
+			moving_target.current_hit_points,
+			moving_target.max_hit_points,
+			moving_target.get_life_state_name(),
+		])
 	if last_report.is_empty():
 		lines.append("")
 		lines.append("last impact: none")
@@ -118,6 +126,12 @@ func _compose_text() -> String:
 		],
 		"result: %s" % str(last_report.get("result", "-")),
 		"reason: %s" % str(last_report.get("reason", "-")),
+		"damage: %s  HP: %s -> %s  state: %s" % [
+			str(last_report.get("damage_applied", "-")),
+			str(last_report.get("hp_before", "-")),
+			str(last_report.get("hp_after", "-")),
+			str(last_report.get("target_state", "-")),
+		],
 		"reflected dir 2D: %s" % _vector2_text(
 			last_report.get("reflected_direction_2d", Vector2.ZERO)
 		),
