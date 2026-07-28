@@ -1,9 +1,9 @@
 ---
 project: RicochetAngles
 document_type: repository_contract
-repository_role: godot_feasibility_spike
+repository_role: godot_feasibility_spike_addendum
 status: ACTIVE
-phase_id: PHASE-V0
+phase_id: PHASE-V0.1
 updated: 2026-07-28
 engine_candidate: Godot
 fallback_candidate: Unreal Engine 5
@@ -17,7 +17,9 @@ fallback_candidate: Unreal Engine 5
 
 > Godot에서 RicochetAngles의 핵심 전차 조작, 마우스 조준, 카메라와 분리된 2D 장갑 판정, 도탄 반사, 탑다운·사선 직교 카메라, Windows/Web export가 합리적인 구조와 생산성으로 성립하는지 빠르게 검증한다.
 
-이 저장소는 현재 `Phase V0 — Godot Core Feasibility Spike` 전용이다.
+기존 `Phase V0 — Godot Core Feasibility Spike`는 사용자 직접 검증을 거쳐 `PASS`로 판정되었다.
+
+현재 저장소의 활성 작업은 사용자 승인에 따른 일회성 추가 검증인 `Phase V0.1 — Moving Target Combat Spike`다.
 
 V0의 성공은 더 많은 기능을 구현하는 것이 아니라 다음 불확실성을 제거하는 것이다.
 
@@ -30,26 +32,27 @@ V0의 성공은 더 많은 기능을 구현하는 것이 아니라 다음 불확
 - 가능하면 Web export가 정상인가
 - 소규모 기능 구현과 디버깅의 생산성이 합리적인가
 
-V0가 합격해도 Godot 본개발로 이어가지 않는다.
+V0.1은 V0 결과를 뒤집거나 전체 포팅을 재개하기 위한 단계가 아니다.
 
-V0 결과를 보존한 뒤 Godot 작업을 중단하고 HTML Pilot의 다음 Phase로 복귀한다.
+움직이는 표적을 조준하고 3회의 관통으로 격파하는 최소 전투 연결성만 확인한 뒤 Godot 작업을 중단하고 HTML Pilot의 다음 Phase로 복귀한다.
 
 ## 2. Current Product Direction
 
 현재 제품 개발 우선순위는 다음과 같다.
 
-1. Godot V0 기술 적합성 검증
-2. V0 결과 기록
-3. Godot 작업 즉시 중단
-4. HTML Pilot `H5B — 방향 계약·장갑 체감 진단`으로 복귀
-5. HTML Pilot에서 구간 진행, 체크포인트, 5~10분 완주 Stage, 외부 플레이테스트를 완료
-6. HTML Pilot 규칙과 대표 플레이 기준판이 확정된 뒤에만 별도 `G0R`에서 본격 엔진 포팅 계획을 다시 작성
+1. Godot V0 결과 `PASS` 보존
+2. V0.1에서 움직이는 표적 1대와 관통 누적 격파만 확인
+3. V0.1 결과 기록
+4. Godot 작업 즉시 중단
+5. HTML Pilot `H5B — 방향 계약·장갑 체감 진단`으로 복귀
+6. HTML Pilot에서 구간 진행, 체크포인트, 5~10분 완주 Stage, 외부 플레이테스트를 완료
+7. HTML Pilot 규칙과 대표 플레이 기준판이 확정된 뒤에만 별도 `G0R`에서 본격 엔진 포팅 계획을 다시 작성
 
 이 저장소의 과거 `Phase 1~11` 전체 포팅 계획은 현재 실행 계획이 아니다.
 
 - 상태: `SUSPENDED`
 - 자동 재개: 금지
-- V0 합격 후 재개: 금지
+- V0.1 완료 후 재개: 금지
 - 재개 조건: HTML Pilot 기준판 확정 후 사용자 승인
 - 재개 방식: 기존 문서의 단순 연장이 아니라 `G0R`에서 전면 재기준화
 
@@ -130,7 +133,14 @@ V0의 기술 선택은 장기 확장성을 완성하기 위한 것이 아니라 
 - 단색 평면 테스트장
 - 격자 또는 원점 표시
 - 플레이어 primitive 전차 1대
-- 고정 표적 최대 3대
+- 고정 표적 최대 2대
+- 움직이는 표적 전차 정확히 1대
+- 움직이는 표적의 단순 순찰 또는 왕복 이동
+- 움직이는 표적 HP 3
+- 관통 시 HP 1 감소
+- 비관통·도탄 시 HP 변화 없음
+- HP 0에서 이동·피격·충돌을 중단하는 파괴 상태
+- R 입력 시 움직이는 표적의 위치·HP·파괴 상태 초기화
 - W/S 전진·후진
 - A/D 차체 선회
 - 간단한 delta 기반 가속·감속
@@ -176,7 +186,8 @@ V0의 기술 선택은 장기 확장성을 완성하기 위한 것이 아니라 
 - 경전차
 - 대전차포
 - 보병
-- 적 AI
+- 플레이어를 공격하는 적 AI
+- 추격·회피·경로 탐색·전술 상태를 가진 적 AI
 - 생성
 - 리스폰
 - 곡사포
@@ -203,19 +214,24 @@ V0의 기술 선택은 장기 확장성을 완성하기 위한 것이 아니라 
 - Steam 기능
 - HTML 전체 데이터 포팅
 - 미래 전체 포팅용 추상화
+- 움직이는 표적을 2대 이상 추가
+- 적의 플레이어 공격
+- 웨이브·생성·리스폰
 - 과거 Phase 1~11 시작
 
 범위 밖 아이디어는 구현하지 않고 완료 보고의 `Deferred`에만 기록한다.
 
 ## 7. Stop Rule
 
-다음 중 하나가 충족되면 V0 작업을 종료한다.
+V0는 이미 `PASS`로 종료되었다. 사용자의 명시적 승인으로 V0.1만 일회성 예외로 연다.
+
+다음 중 하나가 충족되면 V0.1 작업을 종료한다.
 
 1. 핵심 합격 기준이 사용자 검증까지 완료됨
 2. Godot의 구조적 부적합이 충분히 입증됨
 3. 제한된 추가 검증 없이는 결론을 낼 수 없다고 기록됨
 
-V0가 `PASS` 또는 `PASS_WITH_RISK`여도 다음을 하지 않는다.
+V0.1이 완료되면 다음을 하지 않는다.
 
 - 보스 일부 추가
 - 다른 탄종 추가
@@ -229,7 +245,7 @@ V0가 `PASS` 또는 `PASS_WITH_RISK`여도 다음을 하지 않는다.
 
 완료 보고에는 다음 문장을 포함한다.
 
-> Phase V0의 검증 범위에서 작업을 종료했으며, 보스·Stage·전체 탄종·AI·정식 아트·전체 포팅으로 확장하지 않았다.
+> Phase V0.1의 검증 범위에서 작업을 종료했으며, 움직이는 표적 1대·HP 3·관통 격파를 넘어 보스·Stage·전체 탄종·전투 AI·정식 아트·전체 포팅으로 확장하지 않았다.
 
 ## 8. Test Range Contract
 
@@ -238,7 +254,8 @@ V0가 `PASS` 또는 `PASS_WITH_RISK`여도 다음을 하지 않는다.
 - 판독 가능한 단색 바닥
 - 좌표 격자 또는 원점 표시
 - 플레이어 primitive 전차
-- 고정 표적 1~3개
+- 고정 표적 0~2개
+- 단순 이동 표적 1개
 - 최소 조명
 - 탑다운 및 사선 직교 카메라
 - 포탄과 충돌 디버그 표시
@@ -487,6 +504,76 @@ R 입력은 테스트장을 초기화한다.
 
 반복 R 테스트에서 상태 누수가 없어야 한다.
 
+
+## 17.1 V0.1 Moving Target Contract
+
+V0.1의 이동 표적은 정식 적 AI가 아니다.
+
+목적은 다음 하나다.
+
+> 움직이는 장갑 표적을 탑다운·사선 카메라에서 조준하고, 기존 APHE와 2D 장갑 판정으로 관통을 누적해 격파할 수 있는가.
+
+필수 조건:
+
+- 움직이는 표적은 정확히 1대
+- 기존 `target_tank` 또는 동등한 표적 구조 재사용
+- 단순한 두 지점 왕복, 일정 반경 순찰 또는 동등한 결정적 이동
+- 경로 탐색 없음
+- 장애물 회피 없음
+- 플레이어 추격 없음
+- 플레이어 공격 없음
+- 포탑 AI 없음
+- 생성·리스폰 없음
+- 속도와 회전은 delta 기반
+- 움직이는 동안 기존 전면·측면·후면 장갑 판정 유지
+- 탑다운·사선 카메라 모두에서 동일한 논리 결과 유지
+
+정지 구간이나 방향 전환이 필요하면 최소한으로 허용한다.
+
+이동 패턴의 재미, 전술성, 난이도는 평가 대상이 아니다.
+
+## 17.2 V0.1 Damage and Destroy Contract
+
+움직이는 표적의 생명주기는 다음으로 제한한다.
+
+- 최대 HP: `3`
+- 초기 HP: `3`
+- `PENETRATION`: HP 1 감소
+- `NON_PENETRATION`: HP 변화 없음
+- `RICOCHET`: HP 변화 없음
+- 하나의 포탄은 최대 한 번만 피해 적용
+- HP는 0 미만으로 내려가지 않음
+- HP 0 도달 시 `DESTROYED`
+- `DESTROYED` 상태에서 이동 중단
+- `DESTROYED` 상태에서 추가 피해 중단
+- 전투용 collider 비활성화 또는 동등한 중복 피격 방지
+- 간단한 색상 변경, 기울어짐, 비활성 표시 또는 소멸로 파괴 상태 표현
+- 정식 폭발 VFX와 사운드는 구현하지 않음
+- R 입력 시 HP, transform, 이동 방향, 파괴 표시, collider 상태 초기화
+
+피해의 권위값은 기존 장갑 결과다.
+
+3D 물리 노멀, 카메라 방향, 렌더 mesh는 피해 여부를 직접 결정하지 않는다.
+
+## 17.3 V0.1 Aim Policy Boundary
+
+V0.1의 목적은 움직이는 표적과 관통 격파 확인이다.
+
+기존 조준 정책은 다음처럼 기록한다.
+
+- 현재 구현: 마우스 motion 이벤트가 있을 때 월드 조준점 갱신
+- 마우스 정지 시: 마지막 월드 조준점 유지
+
+다음 두 제품 정책은 V0.1 범위에서 새로 구현하지 않는다.
+
+1. 차체 기준 포탑 상대각 고정
+2. 정지한 커서의 화면 좌표를 매 프레임 지면에 재투영
+
+움직이는 표적 검증을 불가능하게 만드는 명백한 결함이 확인된 경우에만 사용자 승인 후 별도 수정한다.
+
+그 외에는 V0.1 결과의 `Risk` 또는 `Deferred Product Decision`으로 기록한다.
+
+
 ## 18. Export Contract
 
 필수:
@@ -524,6 +611,11 @@ Web export 실패는 자동으로 Godot 실패를 의미하지 않는다.
 - V0-T08 도탄 반사 방향
 - V0-T09 반복 초기화
 - V0-T10 export
+- V0.1-T01 움직이는 표적의 반복 가능한 이동
+- V0.1-T02 이동 중 전면·측면·후면 판정
+- V0.1-T03 관통·비관통·도탄의 HP 적용 구분
+- V0.1-T04 3회 관통 격파와 추가 피해 차단
+- V0.1-T05 R 초기화와 탑다운·사선 사용자 확인
 
 각 테스트는 결과, 실행 방법, 관찰 근거, 로그 또는 캡처, 위험, 사용자 확인 필요 여부를 기록한다.
 
@@ -561,6 +653,10 @@ Codex 검증 후 사용자가 직접 확인한다.
 8. 도탄 방향의 시각적 설득력
 9. Windows 실행 빌드
 10. Godot 작업 생산성 체감
+11. 움직이는 표적을 두 카메라에서 조준 가능한가
+12. 관통할 때만 HP가 감소하는가
+13. 3회 관통 후 표적이 확실히 파괴되는가
+14. 파괴 후 추가 피해와 이동이 중단되는가
 
 사용자 검증 전 상태는 `PENDING_USER_VALIDATION` 또는 `INCONCLUSIVE`로 기록한다.
 
@@ -578,13 +674,14 @@ Codex 검증 후 사용자가 직접 확인한다.
 10. V0 범위만 수정
 11. Godot 에디터 로드 검사
 12. 명령행 실행 검사
-13. V0-T01~T10 검증
-14. Windows export
-15. 가능하면 Web export
-16. 결과 문서 작성
-17. 작업 트리 확인
-18. Stop confirmation 작성
-19. 추가 기능 구현 없이 종료
+13. 기존 V0 회귀 검사
+14. V0.1-T01~T05 검증
+15. Windows export
+16. 가능하면 Web export
+17. 결과 문서 작성
+18. 작업 트리 확인
+19. Stop confirmation 작성
+20. 추가 기능 구현 없이 종료
 
 ## 23. Git and File Safety
 
@@ -632,9 +729,11 @@ scripts/
   projectile.gd
   armor_logic_2d.gd
   target_tank.gd
+  moving_target_controller.gd
   debug_overlay.gd
 tests_or_validation/
   V0_VALIDATION_RESULTS.md
+  V01_VALIDATION_RESULTS.md
 README_V0.md
 ```
 
@@ -674,6 +773,16 @@ README_V0.md
 | V0-T09 | PASS/FAIL/UNVERIFIED | | |
 | V0-T10 | PASS/FAIL/UNVERIFIED | | |
 
+### V0.1 Validation Results
+
+| Test | Result | Evidence | Notes |
+|---|---|---|---|
+| V0.1-T01 | PASS/FAIL/UNVERIFIED | | |
+| V0.1-T02 | PASS/FAIL/UNVERIFIED | | |
+| V0.1-T03 | PASS/FAIL/UNVERIFIED | | |
+| V0.1-T04 | PASS/FAIL/UNVERIFIED | | |
+| V0.1-T05 | PASS/FAIL/UNVERIFIED | | |
+
 ### Engine Assessment
 - Codex 사전 판정
 - 사용자 검증 대기 여부
@@ -699,17 +808,18 @@ V0 범위 밖이라 구현하지 않은 항목.
 
 ### Stop Confirmation
 
-> Phase V0의 검증 범위에서 작업을 종료했으며, 보스·Stage·전체 탄종·AI·정식 아트·전체 포팅으로 확장하지 않았다.
+> Phase V0.1의 검증 범위에서 작업을 종료했으며, 움직이는 표적 1대·HP 3·관통 격파를 넘어 보스·Stage·전체 탄종·전투 AI·정식 아트·전체 포팅으로 확장하지 않았다.
 
 ## 27. Current Repository Status
 
-- Repository role: Godot V0 feasibility spike
-- Active Phase: V0
+- Repository role: Godot V0.1 moving target combat spike
+- V0 Result: `PASS`
+- Active Phase: `V0.1`
 - Whole Godot port: `SUSPENDED`
 - Old Phase 1~11: `SUSPENDED`
 - Main game implementation: not started
-- Required next action: repository audit and V0-only implementation
-- Required action after V0: stop Godot work and return to HTML H5B
+- Required next action: moving target 1대·HP 3·관통 격파만 구현
+- Required action after V0.1: stop Godot work and return to HTML H5B
 - Future full port: only after HTML Pilot baseline and separate G0R approval
 
 ## 28. Definition of Done
@@ -732,7 +842,12 @@ V0 범위 밖이라 구현하지 않은 항목.
 - 디버그 오버레이 정상
 - V0-T01~T10 결과 기록
 - 사용자 직접 검증 완료
-- PASS / PASS_WITH_RISK / FAIL 판정
+- V0 `PASS` 기록 유지
+- 움직이는 표적 정확히 1대
+- 관통 시에만 HP 1 감소
+- 3회 관통 후 파괴
+- 파괴 후 이동·추가 피해 중단
+- V0.1-T01~T05 결과 기록
 - 범위 밖 기능 미구현
 - Stop confirmation 작성
 - Godot 작업 종료
