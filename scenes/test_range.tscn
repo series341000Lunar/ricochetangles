@@ -1,0 +1,179 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://scripts/test_range.gd" id="1_range"]
+[ext_resource type="PackedScene" path="res://scenes/player_tank.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/target_tank.tscn" id="3_target"]
+[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="4_camera"]
+[ext_resource type="Script" path="res://scripts/debug_overlay.gd" id="5_debug"]
+
+[sub_resource type="Environment" id="RangeEnvironment"]
+background_mode = 1
+background_color = Color(0.035, 0.047, 0.055, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.72, 0.78, 0.82, 1)
+ambient_light_energy = 0.7
+
+[sub_resource type="StandardMaterial3D" id="FloorMaterial"]
+albedo_color = Color(0.18, 0.235, 0.22, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="FloorMesh"]
+material = SubResource("FloorMaterial")
+size = Vector3(64, 0.2, 64)
+
+[sub_resource type="BoxShape3D" id="FloorCollision"]
+size = Vector3(64, 0.2, 64)
+
+[sub_resource type="StandardMaterial3D" id="XAxisMaterial"]
+albedo_color = Color(0.9, 0.2, 0.18, 1)
+emission_enabled = true
+emission = Color(0.35, 0.02, 0.01, 1)
+
+[sub_resource type="BoxMesh" id="XAxisMesh"]
+material = SubResource("XAxisMaterial")
+size = Vector3(30, 0.035, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="ZAxisMaterial"]
+albedo_color = Color(0.18, 0.5, 1, 1)
+emission_enabled = true
+emission = Color(0.02, 0.12, 0.45, 1)
+
+[sub_resource type="BoxMesh" id="ZAxisMesh"]
+material = SubResource("ZAxisMaterial")
+size = Vector3(0.08, 0.035, 30)
+
+[sub_resource type="StandardMaterial3D" id="AimMaterial"]
+albedo_color = Color(0.95, 0.9, 0.15, 1)
+emission_enabled = true
+emission = Color(0.6, 0.45, 0.02, 1)
+shading_mode = 0
+
+[sub_resource type="TorusMesh" id="AimMesh"]
+material = SubResource("AimMaterial")
+inner_radius = 0.28
+outer_radius = 0.42
+rings = 12
+ring_segments = 20
+
+[sub_resource type="StyleBoxFlat" id="OverlayPanelStyle"]
+bg_color = Color(0.015, 0.02, 0.025, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.82, 0.7, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="OverlayLabelSettings"]
+font_size = 14
+font_color = Color(0.88, 0.96, 0.92, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 0.8)
+
+[node name="TestRange" type="Node3D"]
+script = ExtResource("1_range")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("RangeEnvironment")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-1.0472, -0.698132, 0)
+light_color = Color(1, 0.94, 0.82, 1)
+light_energy = 1.15
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 1
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("FloorMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+position = Vector3(0, -0.1, 0)
+shape = SubResource("FloorCollision")
+
+[node name="OriginX" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.025, 0)
+mesh = SubResource("XAxisMesh")
+
+[node name="OriginZ" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.03, 0)
+mesh = SubResource("ZAxisMesh")
+
+[node name="PlayerTank" parent="." instance=ExtResource("2_player")]
+
+[node name="FrontTarget" parent="." instance=ExtResource("3_target")]
+position = Vector3(0, 0, -20)
+rotation = Vector3(0, 3.14159, 0)
+target_id = "front_target"
+
+[node name="SideTarget" parent="." instance=ExtResource("3_target")]
+position = Vector3(11, 0, -15)
+rotation = Vector3(0, -0.610865, 0)
+target_id = "side_target"
+
+[node name="RearTarget" parent="." instance=ExtResource("3_target")]
+position = Vector3(-11, 0, -15)
+target_id = "rear_target"
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("4_camera")
+player_path = NodePath("../PlayerTank")
+turret_path = NodePath("../PlayerTank/TurretPivot")
+
+[node name="TopDownCamera" type="Camera3D" parent="CameraRig"]
+position = Vector3(0, 34, 0)
+rotation = Vector3(-1.5708, 0, 0)
+projection = 1
+size = 34.0
+near = 0.1
+far = 100.0
+current = true
+
+[node name="ObliqueCamera" type="Camera3D" parent="CameraRig"]
+position = Vector3(18, 26, 18)
+rotation = Vector3(-0.959931, 0.785398, 0)
+projection = 1
+size = 34.0
+near = 0.1
+far = 100.0
+
+[node name="AimMarker" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.08, -20)
+mesh = SubResource("AimMesh")
+
+[node name="ProjectileRoot" type="Node3D" parent="."]
+
+[node name="DebugOverlay" type="Node" parent="."]
+script = ExtResource("5_debug")
+player_path = NodePath("../PlayerTank")
+turret_path = NodePath("../PlayerTank/TurretPivot")
+camera_controller_path = NodePath("../CameraRig")
+aim_marker_path = NodePath("../AimMarker")
+
+[node name="WorldLines" type="MeshInstance3D" parent="DebugOverlay"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="DebugOverlay"]
+
+[node name="PanelContainer" type="PanelContainer" parent="DebugOverlay/CanvasLayer"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 530.0
+offset_bottom = 430.0
+theme_override_styles/panel = SubResource("OverlayPanelStyle")
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugOverlay/CanvasLayer/PanelContainer"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="DebugOverlay/CanvasLayer/PanelContainer/MarginContainer"]
+label_settings = SubResource("OverlayLabelSettings")
+text = "Loading V0 debug state..."
+vertical_alignment = 1

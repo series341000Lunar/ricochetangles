@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/player_tank.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/turret_aim.gd" id="2_turret"]
+
+[sub_resource type="BoxShape3D" id="PlayerCollision"]
+size = Vector3(2.6, 1.2, 4.0)
+
+[sub_resource type="StandardMaterial3D" id="PlayerHullMaterial"]
+albedo_color = Color(0.18, 0.42, 0.24, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="PlayerHullMesh"]
+material = SubResource("PlayerHullMaterial")
+size = Vector3(2.6, 0.85, 4.0)
+
+[sub_resource type="CylinderMesh" id="PlayerTurretMesh"]
+material = SubResource("PlayerHullMaterial")
+top_radius = 0.9
+bottom_radius = 1.05
+height = 0.65
+radial_segments = 10
+
+[sub_resource type="BoxMesh" id="PlayerBarrelMesh"]
+material = SubResource("PlayerHullMaterial")
+size = Vector3(0.24, 0.24, 3.0)
+
+[sub_resource type="StandardMaterial3D" id="TrackMaterial"]
+albedo_color = Color(0.07, 0.08, 0.075, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="TrackMesh"]
+material = SubResource("TrackMaterial")
+size = Vector3(0.45, 0.55, 4.35)
+
+[node name="PlayerTank" type="CharacterBody3D"]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.6, 0)
+shape = SubResource("PlayerCollision")
+
+[node name="Hull" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.62, 0)
+mesh = SubResource("PlayerHullMesh")
+
+[node name="LeftTrack" type="MeshInstance3D" parent="."]
+position = Vector3(-1.42, 0.43, 0)
+mesh = SubResource("TrackMesh")
+
+[node name="RightTrack" type="MeshInstance3D" parent="."]
+position = Vector3(1.42, 0.43, 0)
+mesh = SubResource("TrackMesh")
+
+[node name="TurretPivot" type="Node3D" parent="."]
+position = Vector3(0, 1.25, 0)
+script = ExtResource("2_turret")
+
+[node name="Turret" type="MeshInstance3D" parent="TurretPivot"]
+mesh = SubResource("PlayerTurretMesh")
+
+[node name="Barrel" type="MeshInstance3D" parent="TurretPivot"]
+position = Vector3(0, 0.05, -1.8)
+mesh = SubResource("PlayerBarrelMesh")
+
+[node name="Muzzle" type="Marker3D" parent="TurretPivot"]
+position = Vector3(0, 0.05, -3.35)
