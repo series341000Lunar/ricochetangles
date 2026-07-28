@@ -2,10 +2,10 @@
 project: RicochetAngles
 document_type: migration_and_phase_gate
 status: ACTIVE
-active_phase: PHASE-V0
+active_phase: PHASE-V0.1
 updated: 2026-07-28
 whole_port_status: SUSPENDED
-post_v0_destination: HTML-H5B
+post_v01_destination: HTML-H5B
 ---
 
 # RicochetAngles Godot Migration Phases
@@ -16,38 +16,38 @@ post_v0_destination: HTML-H5B
 
 현재 Godot 작업은 전체 포팅이 아니다.
 
+기존 `Phase V0 — Godot Core Feasibility Spike`는 사용자 검증 결과 `PASS`로 완료되었다.
+
 현재 활성 단계는 오직 다음 하나다.
 
-> `Phase V0 — Godot Core Feasibility Spike`
+> `Phase V0.1 — Moving Target Combat Spike`
 
 기존 Godot Phase 1~11은 현재 실행하지 않는다.
 
-V0 결과가 합격이어도 기존 Phase 1로 넘어가지 않는다.
+V0.1은 기존 Phase 1을 시작하는 작업이 아니다.
 
-V0가 끝나면 Godot 작업을 중단하고 HTML Pilot의 `H5B — 방향 계약·장갑 체감 진단`으로 복귀한다.
+V0.1에서 움직이는 표적 1대와 3회 관통 격파만 확인한 뒤 Godot 작업을 중단하고 HTML Pilot의 `H5B — 방향 계약·장갑 체감 진단`으로 복귀한다.
 
 본격 Godot 포팅은 HTML Pilot 규칙과 대표 플레이 기준판이 확정된 뒤 별도 `G0R`에서 전면 재설계한다.
 
 ## 2. Current Development Flow
 
 ```text
-HTML Phase 5 / Stage 2 종료
+Godot V0 완료
         ↓
-Godot V0 저장소 감사
+V0 결과 PASS 보존
         ↓
-세 계약 문서 정합성 확인
+사용자 승인 V0.1 예외
         ↓
-V0 범위만 구현
+움직이는 표적 1대
         ↓
-Codex 기술 검증
+HP 3 / 관통 시 HP -1
         ↓
-Windows export
+3회 관통 격파
         ↓
-가능하면 Web export
+탑다운·사선 사용자 검증
         ↓
-사용자 직접 조작·판정 검증
-        ↓
-PASS / PASS_WITH_RISK / FAIL
+V0.1 종료 기록
         ↓
 Godot 작업 중단
         ↓
@@ -58,17 +58,13 @@ HTML H5B 복귀
 
 | Phase | Name | Status | Next Action |
 |---|---|---|---|
-| V0-A | 저장소·계약 감사 | READY | 현재 저장소와 문서 확인 |
-| V0-B | 테스트장 기반 | PLANNED | 최소 3D 테스트 환경 |
-| V0-C | 이동·포탑·조준 | PLANNED | W/S/A/D, ray-plane |
-| V0-D | 카메라 비교 | PLANNED | 탑다운/사선 직교 |
-| V0-E | APHE·충돌 | PLANNED | APHE 1종, sweep |
-| V0-F | 2D 장갑 판정 | PLANNED | 전·측·후, 입사각 |
-| V0-G | 도탄 시각·디버그 | PLANNED | 반사 방향과 overlay |
-| V0-H | export·Codex 검증 | PLANNED | Windows, 가능하면 Web |
-| V0-I | 사용자 직접 검증 | BLOCKED | 실행 프로젝트 필요 |
-| V0-J | 최종 판정·Stop | BLOCKED | 사용자 검증 필요 |
-| H5B | HTML 장갑 체감 진단 | QUEUED | V0 종료 후 복귀 |
+| V0-A~J | Godot Core Feasibility Spike | COMPLETED / PASS | 결과 보존 |
+| V0.1-A | 범위·회귀 감사 | READY | V0 결과와 금지 범위 확인 |
+| V0.1-B | 움직이는 표적 1대 | PLANNED | 단순 결정적 이동 |
+| V0.1-C | 관통 피해·HP 3 | PLANNED | 관통만 HP 감소 |
+| V0.1-D | 격파·초기화 | PLANNED | 파괴 상태와 R reset |
+| V0.1-E | 사용자 검증·Stop | BLOCKED | 실행 프로젝트 필요 |
+| H5B | HTML 장갑 체감 진단 | QUEUED | V0.1 종료 후 복귀 |
 | G0R | 본격 엔진 포팅 재기준화 | SUSPENDED | HTML Pilot 기준판 필요 |
 | G1~G11 | 과거 전체 포팅 계획 | SUSPENDED | 자동 재개 금지 |
 
@@ -684,7 +680,7 @@ Codex가 대신 판단할 수 없는 조작감, 조준감, 판정 설득력, 생
 
 ## Status
 
-`BLOCKED`
+`COMPLETED — PASS`
 
 ## Dependencies
 
@@ -692,7 +688,9 @@ Codex가 대신 판단할 수 없는 조작감, 조준감, 판정 설득력, 생
 
 ## Goal
 
-Godot V0의 최종 결과를 확정하고 추가 개발 없이 종료한다.
+Godot V0의 최종 결과는 `PASS`로 확정되었다.
+
+이후 사용자가 움직이는 표적과 최소 격파 감각을 한 번 더 확인하기 위해 V0.1을 명시적으로 승인했다. 이는 Stop Rule의 일회성 사용자 승인 예외이며, 전체 포팅 재개로 해석하지 않는다.
 
 ## Final Values
 
@@ -736,7 +734,7 @@ Godot V0의 최종 결과를 확정하고 추가 개발 없이 종료한다.
 
 ## Mandatory Stop
 
-판정 후:
+V0.1 예외 외에는:
 
 - Godot 기능 추가 금지
 - bugfix 확장 금지
@@ -758,12 +756,296 @@ Godot V0의 최종 결과를 확정하고 추가 개발 없이 종료한다.
 
 ## Completion Criteria
 
-- PASS / PASS_WITH_RISK / FAIL / INCONCLUSIVE 확정
-- Stop confirmation 작성
+- V0 결과 `PASS` 확정
+- V0 산출물과 export 보존
+- 사용자 승인 V0.1만 예외로 등록
+- 기존 Phase 1~11은 계속 `SUSPENDED`
+
+
+# Phase V0.1-A — Scope and Regression Audit
+
+## Status
+
+`READY`
+
+## Goal
+
+V0의 합격 결과를 보존하면서 V0.1의 범위를 움직이는 표적 1대와 관통 격파로 제한한다.
+
+## Required Checks
+
+- [ ] V0 자동 검증이 계속 통과
+- [ ] 탑다운·사선 카메라 유지
+- [ ] 기존 2D 장갑 판정 변경 없음
+- [ ] APHE 1종 외 탄종 추가 없음
+- [ ] 움직이는 표적은 정확히 1대
+- [ ] 플레이어 공격 AI 없음
+- [ ] 경로 탐색 없음
+- [ ] 생성·리스폰 없음
+- [ ] HP는 3
+- [ ] 관통만 피해 적용
+- [ ] V0.1 완료 뒤 HTML H5B 복귀
+
+## Planned Changes
+
+허용되는 새 책임:
+
+- 움직이는 표적의 단순 이동
+- HP와 파괴 상태
+- 기존 장갑 결과를 피해에 연결
+- R reset 확장
+- V0.1 검증 결과 기록
+
+## Completion Criteria
+
+- V0 회귀 없음
+- 범위 밖 구현 계획 없음
+- 수정 파일과 테스트 계획 보고
+
+# Phase V0.1-B — Single Moving Target
+
+## Status
+
+`PLANNED`
+
+## Dependencies
+
+- V0.1-A 완료
+
+## Goal
+
+고정 표적 중 하나를 단순 이동 표적으로 바꾸거나 움직이는 표적 1대를 추가한다.
+
+## Movement Contract
+
+- 표적 수: 정확히 1대
+- 결정적이고 반복 가능한 이동
+- 두 지점 왕복, 짧은 순찰 원 또는 동등한 단순 패턴
+- delta 기반
+- 방향 전환 시 차체 yaw 갱신 가능
+- 플레이어 추격 없음
+- 회피 없음
+- 장애물 경로 탐색 없음
+- 포탑 조준 없음
+- 플레이어 공격 없음
+- 생성·리스폰 없음
+
+## Test V0.1-T01
+
+### Scenario
+
+반복 가능한 이동
+
+### Checks
+
+- 실행할 때마다 같은 시작 위치
+- 이동이 프레임레이트에 크게 의존하지 않음
+- 방향 전환 정상
+- R 입력 후 시작 위치와 진행 방향 복원
+- 탑다운·사선 카메라에서 표시 정상
+
+## Completion Criteria
+
+- 움직이는 표적 1대만 존재
+- 기존 V0 장갑·포탄 기능 회귀 없음
+- V0.1-T01 기록
+
+# Phase V0.1-C — Penetration Damage and HP 3
+
+## Status
+
+`PLANNED`
+
+## Dependencies
+
+- V0.1-B 완료
+
+## Goal
+
+기존 장갑 판정의 결과를 표적 HP에 연결한다.
+
+## Damage Contract
+
+- maximum HP: 3
+- initial HP: 3
+- `PENETRATION`: HP -1
+- `NON_PENETRATION`: HP 변화 없음
+- `RICOCHET`: HP 변화 없음
+- projectile당 피해 최대 1회
+- HP clamp: 0~3
+- debug overlay에 현재 HP 표시
+- damage result와 armor result를 같은 이벤트로 기록
+
+## Test V0.1-T02
+
+### Scenario
+
+이동 중 장갑 판정
+
+### Checks
+
+- 이동과 yaw 변화 중 전면·측면·후면 판정
+- 카메라 모드가 결과에 영향 없음
+- physics normal이 피해 권위값이 아님
+
+## Test V0.1-T03
+
+### Scenario
+
+피해 구분
+
+### Checks
+
+- 관통 시에만 HP 감소
+- 비관통은 HP 유지
+- 도탄은 HP 유지
+- 한 포탄의 중복 피해 없음
+
+## Completion Criteria
+
+- 장갑 결과와 HP가 정확히 연결
+- V0.1-T02, T03 기록
+- 신규 탄종과 전투 AI 없음
+
+# Phase V0.1-D — Destroyed State and Reset
+
+## Status
+
+`PLANNED`
+
+## Dependencies
+
+- V0.1-C 완료
+
+## Goal
+
+3회 관통 후 표적이 명확히 격파되고 R로 완전히 복구되는지 확인한다.
+
+## Destroyed State
+
+HP 0에서:
+
+- `DESTROYED` 상태 진입
+- 이동 중단
+- 추가 피해 중단
+- 전투용 collider 비활성화 또는 동등한 중복 피격 방지
+- 색상 변경, 기울어짐, 비활성 표시 또는 소멸 중 하나
+- 정식 폭발 VFX와 사운드 없음
+- SCORE, XP, drop 없음
+- respawn 없음
+
+## Reset
+
+R 입력 시:
+
+- HP 3
+- ALIVE 상태
+- 시작 transform
+- 시작 이동 방향
+- 이동 타이머
+- collider
+- 파괴 표시
+- 최근 damage debug
+- 기존 포탄과 충돌 표시
+
+## Test V0.1-T04
+
+### Scenario
+
+3회 관통 격파
+
+### Checks
+
+- 첫 관통: HP 2
+- 두 번째 관통: HP 1
+- 세 번째 관통: HP 0 / DESTROYED
+- 파괴 후 이동 없음
+- 파괴 후 추가 피해 없음
+
+## Test V0.1-T05
+
+### Scenario
+
+반복 초기화
+
+### Checks
+
+- R 이후 HP 3
+- 이동 재개
+- collider 복구
+- 파괴 표시 제거
+- 반복 reset 누수 없음
+
+## Completion Criteria
+
+- 3회 관통 격파 정상
+- 파괴 후 상태 안정
+- reset 정상
+- V0.1-T04, T05 기록
+
+# Phase V0.1-E — User Validation and Final Stop
+
+## Status
+
+`BLOCKED`
+
+## Dependencies
+
+- V0.1-D 완료
+- Windows build 또는 실행 가능한 Godot 프로젝트
+
+## User Checklist
+
+1. 움직이는 표적을 탑다운에서 조준 가능
+2. 움직이는 표적을 사선 카메라에서 조준 가능
+3. 이동 중 전면·측면·후면 판정이 납득됨
+4. 관통에만 HP가 감소
+5. 비관통·도탄에는 HP가 유지
+6. 세 번 관통하면 명확히 격파
+7. 파괴 후 움직임과 추가 피해 중단
+8. R 이후 완전 복구
+9. 현재 조준 정책의 체감 위험 기록
+
+## Result
+
+V0.1은 별도의 엔진 합격 판정을 다시 하지 않는다.
+
+기록값:
+
+- `V0 RESULT: PASS`
+- `V0.1 COMBAT LINK: PASS`
+- `V0.1 COMBAT LINK: PASS_WITH_RISK`
+- `V0.1 COMBAT LINK: FAIL`
+
+FAIL이어도 V0의 기술 가능성 판정을 자동 취소하지 않는다.
+
+## Mandatory Stop
+
+V0.1 검증 뒤:
+
+- 표적 2대 이상 금지
+- 적 공격 금지
+- 신규 탄종 금지
+- 보스 금지
+- Stage 금지
+- AI 확장 금지
+- polish 금지
+- 전체 포팅 금지
+
+## Stop Confirmation
+
+> Phase V0.1의 검증 범위에서 작업을 종료했으며, 움직이는 표적 1대·HP 3·관통 격파를 넘어 보스·Stage·전체 탄종·전투 AI·정식 아트·전체 포팅으로 확장하지 않았다.
+
+## Completion Criteria
+
+- 사용자 직접 검증
+- V0.1 결과 기록
+- Stop confirmation
 - Godot 작업 `STOPPED`
 - HTML H5B를 다음 활성 Phase로 기록
 
-# Post-V0 — Return to HTML H5B
+
+# Post-V0.1 — Return to HTML H5B
 
 ## Status
 
@@ -771,7 +1053,7 @@ Godot V0의 최종 결과를 확정하고 추가 개발 없이 종료한다.
 
 ## Goal
 
-V0 결과만 보존하고 HTML Pilot의 장갑 체감과 방향 계약 작업으로 복귀한다.
+V0와 V0.1 결과만 보존하고 HTML Pilot의 장갑 체감과 방향 계약 작업으로 복귀한다.
 
 ## H5B Focus
 
@@ -789,13 +1071,15 @@ V0 결과만 보존하고 HTML Pilot의 장갑 체감과 방향 계약 작업으
 - 신규 탄종
 - 신규 적
 - Stage geometry 대규모 변경
-- Godot V0 기능 계속 개발
+- Godot V0·V0.1 기능 계속 개발
 - Godot와 HTML 동시 재설계
 
 ## Transition
 
 ```text
-V0 final assessment
+V0 PASS
+        ↓
+V0.1 moving target combat check
         ↓
 Godot STOPPED
         ↓
@@ -891,6 +1175,8 @@ HTML H5B ACTIVE
 
 ## Validation Results
 
+### V0 Results
+
 | Test | Codex | User | Evidence | Notes |
 |---|---|---|---|---|
 | V0-T01 | | | | |
@@ -904,9 +1190,20 @@ HTML H5B ACTIVE
 | V0-T09 | | | | |
 | V0-T10 | | | | |
 
+### V0.1 Results
+
+| Test | Codex | User | Evidence | Notes |
+|---|---|---|---|---|
+| V0.1-T01 | | | | |
+| V0.1-T02 | | | | |
+| V0.1-T03 | | | | |
+| V0.1-T04 | | | | |
+| V0.1-T05 | | | | |
+
 ## Final Assessment
 
-- Result:
+- V0 Result: PASS
+- V0.1 Combat Link Result:
 - Technical reason:
 - Productivity reason:
 - User validation:
@@ -945,7 +1242,7 @@ HTML H5B ACTIVE
 
 ## Stop Confirmation
 
-> Phase V0의 검증 범위에서 작업을 종료했으며, 보스·Stage·전체 탄종·AI·정식 아트·전체 포팅으로 확장하지 않았다.
+> Phase V0.1의 검증 범위에서 작업을 종료했으며, 움직이는 표적 1대·HP 3·관통 격파를 넘어 보스·Stage·전체 탄종·전투 AI·정식 아트·전체 포팅으로 확장하지 않았다.
 
 ## Next Active Phase
 
